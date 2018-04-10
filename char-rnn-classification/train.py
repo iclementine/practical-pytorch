@@ -74,4 +74,5 @@ for epoch in range(1, n_epochs + 1):
         current_loss = 0
 
 torch.save(rnn, 'char-rnn-classification.pt')
+# 原来保存模型就这么简单吗？
 

@@ -17,6 +17,7 @@ def predict(line, n_predictions=3):
     output = evaluate(Variable(lineToTensor(line)))
 
     # Get top N categories
+        # Get top N categories
     topv, topi = output.data.topk(n_predictions, 1, True)
     predictions = []
 

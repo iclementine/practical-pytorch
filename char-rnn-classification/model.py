@@ -10,9 +10,10 @@ class RNN(nn.Module):
 
         self.i2h = nn.Linear(input_size + hidden_size, hidden_size)
         self.i2o = nn.Linear(input_size + hidden_size, output_size)
-        self.softmax = nn.LogSoftmax()
+        self.softmax = nn.LogSoftmax(dim=-1) # NOTE: Implicit dimension choice for log_softmax has been deprecated.
 
     def forward(self, input, hidden):
+        # NOTE: this model is a one-step model, but it is very simple, and you can manipulate it in training step freely
         combined = torch.cat((input, hidden), 1)
         hidden = self.i2h(combined)
         output = self.i2o(combined)
