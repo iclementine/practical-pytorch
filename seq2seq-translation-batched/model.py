@@ -6,6 +6,7 @@ from torch.nn.utils.rnn import pad_packed_sequence, pack_padded_sequence#, maske
 from masked_cross_entropy import * 
 # 其实使用 packedSequence 直接规避掉这个或许会更好， 先 pack 通过 RNN 然后再次 pad
 
+
 class EncoderRNN(nn.Module):
     def __init__(self, input_size, hidden_size, n_layers=1, dropout=0.1):
         super(EncoderRNN, self).__init__()

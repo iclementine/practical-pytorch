@@ -11,6 +11,7 @@ from model import *
 from utils import *
 
 from evaluate import *
+import pdb
 
 def train(input_batches, input_lengths, target_batches, target_lengths, encoder, decoder,encoder_optimizer, decoder_optimizer, criterion, max_length=MAX_LENGTH):
     # 訓練一個 minibatch
@@ -25,7 +26,9 @@ def train(input_batches, input_lengths, target_batches, target_lengths, encoder,
     
     # Prepare input and output variables
     decoder_input = Variable(torch.LongTensor([SOS_token] * batch_size))
-    decoder_hidden = encoder_hidden[:decoder.n_layers] # Use last (forward) hidden state from encoder
+    decoder_hidden = encoder_hidden[::2].contiguous()
+    #decoder_hidden = encoder_hidden[:decoder.n_layers]
+    #decoder_hidden = encoder_hidden[:decoder.n_layers] # Use last (forward) hidden state from encoder
 
     max_target_length = max(target_lengths)
     all_decoder_outputs = Variable(torch.zeros(max_target_length, batch_size, decoder.output_size))
@@ -79,7 +82,7 @@ clip = 50.0
 teacher_forcing_ratio = 0.5
 learning_rate = 0.0001
 decoder_learning_ratio = 5.0
-n_epochs = 10 #TODO: 到時候改回來
+n_epochs = 50000 #TODO: 到時候改回來
 epoch = 0
 plot_every = 20
 print_every = 100
@@ -137,6 +140,7 @@ while epoch < n_epochs:
     input_batches, input_lengths, target_batches, target_lengths = random_batch(batch_size)
 
     # Run the train function
+    #pdb.set_trace()
     loss, ec, dc = train(
         input_batches, input_lengths, target_batches, target_lengths,
         encoder, decoder,
